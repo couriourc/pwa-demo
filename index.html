@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
     <link rel="manifest" href="./manifest.json" />
     <!-- ... -->
-    <link rel="icon" type="image/png" href="icons/logo.jpg" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/jpg" href="icons/logo.jpg" />
+    <link rel="apple-touch-icon" href="icons/logo.jpg" />
+    <meta name="description" content="Notifications API PWA Demo" />
+    <meta name="robots" content="index, follow" />
+    <title>Notification - Web API 接口参考 | MDN</title>
+    <meta property="og:url" content="https://cocs-pwa.netlify.app" />
+    <meta property="og:title" content="PWA Demo" />
+    <meta property="og:title" content="PWA Demo" />
+    <meta property="og:image" content="./icons/logo.jpg" />
+    <link
+      rel="canonical"
+      href="https://developer.mozilla.org/zh-CN/docs/Web/API/Notification"
+    />
+    <script
+      async=""
+      src="https://www.google-analytics.com/analytics.js"
+    ></script>
     <style>
       /* 按钮btn 基础样式 */
       body {
@@ -61,6 +79,9 @@
       .debug .success {
         color: #2ecc71;
       }
+      .debug .tag {
+        color: #f1c40f;
+      }
       .demo-title {
         color: #dfe6e9;
       }
@@ -112,24 +133,29 @@
         var options = {
           body: notifBody,
           icon: notifImg,
-          vibrate: true,
-          title: "Notification",
-          badge: "notification",
+          vibrate: [300, 100, 300],
+          requireInteraction: true,
         };
 
         var notif = new Notification(notifTitle, options);
         notif.addEventListener("show", () => {
-          debug.innerHTML += `<p>[APP NOTIFICATION DEBUG <span class="success">SUCCESS</span>]\n</p>`;
+          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
         });
         notif.addEventListener("click", (event) => {
-          debug.innerHTML += `<p>[APP NOTIFICATION DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
+          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
         });
       }
       var button = document.getElementById("notifications");
       button.addEventListener("click", function (e) {
-        Notification.requestPermission().then(function (result) {
-          if (result === "granted") {
-            randomNotification();
+        Notification.requestPermission(function (result) {
+          if (result === "denied") {
+            debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">ERROR Permission</span>]\n</p>`;
+          } else {
+            try {
+              randomNotification();
+            } catch (err) {
+              debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">ERROR Permission</span>]\n</p>`;
+            }
           }
         });
 
@@ -138,10 +164,10 @@
           navigator
             .setAppBadge(10)
             .then(() => {
-              debug.innerHTML += `<p>[APP BADGE DEBUG <span class="success">SUCCESS</span>]\n</p>`;
+              debug.innerHTML += `<p>[APP <span class="tag">BADGE</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
             })
             .catch(() => {
-              debug.innerHTML += `<p>[APP BADGE DEBUG <span class="fail">ERROR</span>]\n</p>`;
+              debug.innerHTML += `<p>[APP  <span class="tag">BADGE</span> DEBUG <span class="fail">ERROR</span>]\n</p>`;
             });
         }
       });
