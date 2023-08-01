@@ -159,10 +159,11 @@
             try {
               randomNotification();
             } catch (err) {
-              fetch("/get_notifications");
               debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">ERROR Permission ${err}</span> ]\n</p>`;
+              debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">Try fetch</span> ]\n</p>`;
+              fetch("/get_notifications");
             }
-          }
+          } 
         });
 
         if (navigator.setAppBadge) {
