@@ -4,6 +4,16 @@ self.addEventListener("push", (event) => {
     const payload = event.data?.text() ?? "no payload";
     event.waitUntil(
         self.registration.showNotification("ServiceWorker Cookbook", {
+            actions: [
+                {
+                    action: "view-content",
+                    title: "Yes",
+                },
+                {
+                    action: "go-home",
+                    title: "No",
+                },
+            ],
             body: payload,
         }),
     );

@@ -56,7 +56,9 @@
   </head>
   <body>
     <h1>Just a Pwa Demo</h1>
+    <div id="debug"></div>
     <button id="notifications" class="btn twinkle">Start</button>
+
     <script>
       const registerServiceWorker = async () => {
         if ("serviceWorker" in navigator) {
@@ -90,6 +92,7 @@
       registerServiceWorker();
     </script>
     <script>
+      const debug = document.getElementById("debug");
       function randomNotification() {
         var notifTitle = "Notification";
         var notifBody = "Created by  CouriourC";
@@ -98,12 +101,11 @@
           body: notifBody,
           icon: notifImg,
         };
+
         var notif = new Notification(notifTitle, options);
-        {
-          {
-            /*  setTimeout(randomNotification, 30000);  */
-          }
-        }
+        window.addEventListener("click", (event) => {
+            debug.innerHTML += "[APP NOTIFICATION SUCCESS] " + event;
+        });
       }
       var button = document.getElementById("notifications");
       button.addEventListener("click", function (e) {
@@ -115,7 +117,14 @@
 
         if (navigator.setAppBadge) {
           // Display the number of unread messages.
-          navigator.setAppBadge(10);
+          navigator
+            .setAppBadge(10)
+            .then(() => {
+              debug.innerHTML += "[APP BADGE SUCCESSFUL]";
+            })
+            .catch(() => {
+              debug.innerHTML += "[APP BADGE ERROR]";
+            });
         }
       });
     </script>
