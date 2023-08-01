@@ -137,17 +137,13 @@
           requireInteraction: true,
         };
 
-        try {
-          var notif = new Notification(notifTitle, options);
-          notif.addEventListener("show", () => {
-            debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
-          });
-          notif.addEventListener("click", (event) => {
-            debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
-          });
-        } catch (err) {
-          console.log(err);
-        }
+        var notif = new Notification(notifTitle, options);
+        notif.addEventListener("show", () => {
+          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
+        });
+        notif.addEventListener("click", (event) => {
+          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
+        });
       }
       var button = document.getElementById("notifications");
       button.addEventListener("click", function (e) {
