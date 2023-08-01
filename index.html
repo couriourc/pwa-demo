@@ -12,7 +12,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #bdc3c7;
+        background-color: #2f3542;
       }
       .btn {
         width: 200px;
@@ -52,11 +52,23 @@
         transition: ease-in-out 0.5s;
         transform: skew(45deg) translate3d(300px, 0, 0);
       }
+      .debug {
+        color: #dfe6e9;
+      }
+      .debug .fail {
+        color: #d63031;
+      }
+      .debug .success {
+        color: #2ecc71;
+      }
+      .demo-title {
+        color: #dfe6e9;
+      }
     </style>
   </head>
   <body>
-    <h1>Just a Pwa Demo</h1>
-    <div id="debug"></div>
+    <h1 class="demo-title">Pwa Demo</h1>
+    <div class="debug" id="debug"></div>
     <button id="notifications" class="btn twinkle">Start</button>
 
     <script>
@@ -100,11 +112,17 @@
         var options = {
           body: notifBody,
           icon: notifImg,
+          vibrate: true,
+          title: "Notification",
+          badge: "notification",
         };
 
         var notif = new Notification(notifTitle, options);
-        window.addEventListener("click", (event) => {
-            debug.innerHTML += "[APP NOTIFICATION SUCCESS] " + event;
+        notif.addEventListener("show", () => {
+          debug.innerHTML += `<p>[APP NOTIFICATION DEBUG <span class="success">SUCCESS</span>]\n</p>`;
+        });
+        notif.addEventListener("click", (event) => {
+          debug.innerHTML += `<p>[APP NOTIFICATION DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
         });
       }
       var button = document.getElementById("notifications");
@@ -120,10 +138,10 @@
           navigator
             .setAppBadge(10)
             .then(() => {
-              debug.innerHTML += "[APP BADGE SUCCESSFUL]";
+              debug.innerHTML += `<p>[APP BADGE DEBUG <span class="success">SUCCESS</span>]\n</p>`;
             })
             .catch(() => {
-              debug.innerHTML += "[APP BADGE ERROR]";
+              debug.innerHTML += `<p>[APP BADGE DEBUG <span class="fail">ERROR</span>]\n</p>`;
             });
         }
       });
