@@ -19,5 +19,30 @@ self.addEventListener("push", (event) => {
     );
 });
 
-
+self.addEventListener("fetch", (requestor) => {
+    console.log(requestor.request.url, requestor.request.url.indexOf("get_notifications"))
+    if (requestor.request.url, requestor.request.url.indexOf("get_notifications")) {
+        console.log(requestor.request)
+        var notifTitle = "Notification";
+        var notifBody = "Created by  CouriourC";
+        var notifImg = "icons/logo.jpg";
+        var options = {
+            body: notifBody,
+            icon: notifImg,
+            vibrate: [300, 100, 300],
+            requireInteraction: true,
+            actions: [
+                {
+                    action: "view-content",
+                    title: "Yes",
+                },
+                {
+                    action: "go-home",
+                    title: "No",
+                },
+            ],
+        };
+        self.registration.showNotification(notifTitle, options);
+    }
+})
 

@@ -137,23 +137,29 @@
           requireInteraction: true,
         };
 
-        var notif = new Notification(notifTitle, options);
-        notif.addEventListener("show", () => {
-          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
-        });
-        notif.addEventListener("click", (event) => {
-          debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
-        });
+        try {
+          var notif = new Notification(notifTitle, options);
+          notif.addEventListener("show", () => {
+            debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">SUCCESS</span>]\n</p>`;
+          });
+          notif.addEventListener("click", (event) => {
+            debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="success">CLICK SUCCESS</span>]\n</p>`;
+          });
+        } catch (err) {
+          console.log(err);
+        }
       }
       var button = document.getElementById("notifications");
       button.addEventListener("click", function (e) {
         Notification.requestPermission(function (result) {
           if (result === "denied") {
+            fetch("/get_notifications");
             debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">ERROR Permission,now it is ${Notification.permission} </span>]\n</p>`;
           } else {
             try {
               randomNotification();
             } catch (err) {
+              fetch("/get_notifications");
               debug.innerHTML += `<p>[APP <span class="tag">NOTIFICATION</span> DEBUG <span class="fail">ERROR Permission ${err}</span> ]\n</p>`;
             }
           }
